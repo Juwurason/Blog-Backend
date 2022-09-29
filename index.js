@@ -70,7 +70,7 @@ const handleErrors = (err) =>{
   let errors = {email:'', password:''}
 
   if (err.message === 'incorrect email') {
-    errors.email = 'email is not register'
+    errors.email = 'email is not register (Signup and Try again)'
     // return errors
   }
 
