@@ -14,6 +14,33 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).json({});
   }
+
+  app.get("/", async(req, res)=>{
+    // res.status(200).json({ message: "welcome now"})
+    // console.log(req.body);
+    const blog = await Blog.find({})
+    // res.status(200).json(blog)
+    res.status(200).json({blog})
+    console.log(blog[0].tittle);
+})
+app.post("/",(req,res)=>{
+    res.status(200).json({message:"Posted"})
+    console.log(req.body);
+    const {title, body, author} =  req.body
+    const blom = Blog.create({
+    tittle: title,
+    body: body,
+    author: author,
+    // image: image
+})
+})
+
+app.get("/signu", async(req, res)=>{
+  const user = await Users.find({})
+  res.status(200).json({user})
+  console.log(user);
+})
+
     // const body = req.body;
     // const user = await Users.findOne({ email: body.email });
     // const user = await Users.find({});

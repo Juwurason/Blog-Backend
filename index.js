@@ -30,37 +30,52 @@ app.listen(PORT, ()=> console.log(`app on port ${PORT}`));
 
 });
 
+
+const storage = multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null, "uploads")
+  },
+  filename: (req, file, cb)=>{
+    cb(null,file.originalname)
+  }
+})
+const upload = multer({storage: storage})
+
+app.post('/',upload.single('testi'), (req,res)=>{
+const body = req.body
+console.log(body);
+const savei = new Example({
+tittle: body.tittle,
+body: body.body,
+author: body.author,
+img:{
+  data: fs.readFileSync("uploads/" + req.file.filename),
+  contentType: "image/png"
+}
+})
+savei
+.save()
+.then((res)=>{
+console.log("image is saved")
+})
+
+.catch((err)=>{
+console.log(err, "error has occur")
+})
+res.send('image is saved')
+// res.send('image is saved', res.send(req.body))
+})
+
+app.get('/',async (req,res)=>{
+const allData = await Example.find()
+res.json(allData)
+})
+
+
 app.get("/signup", auth, async (req, res) =>{
   const profile = await Users.findById(req.user._id)
   res.send(profile)
 })
-
-app.get("/", async(req, res)=>{
-    // res.status(200).json({ message: "welcome now"})
-    // console.log(req.body);
-    const blog = await Blog.find({})
-    // res.status(200).json(blog)
-    res.status(200).json({blog})
-    console.log(blog[0].tittle);
-})
-app.post("/",(req,res)=>{
-    res.status(200).json({message:"Posted"})
-    console.log(req.body);
-    const {title, body, author} =  req.body
-    const blom = Blog.create({
-    tittle: title,
-    body: body,
-    author: author,
-    // image: image
-})
-})
-
-app.get("/signu", async(req, res)=>{
-    const user = await Users.find({})
-    res.status(200).json({user})
-    console.log(user);
-})
-
 
 
 const handleErrors = (err) =>{
@@ -124,54 +139,7 @@ app.post("/login", async (req, res) => {
   }})
 
 
-  // app.get("/login", async (req, res)=>{
-  //   const body = req.body
-  //   const user = await Users.findOne({email:body.email});
-  //   console.log({user})
-  //   res.send(user)
-  // })
-
-
-
-  const storage = multer.diskStorage({
-      destination:(req,file,cb)=>{
-        cb(null, "uploads")
-      },
-      filename: (req, file, cb)=>{
-        cb(null,file.originalname)
-      }
-   })
- const upload = multer({storage: storage})
-
- app.post('/up',upload.single('testi'), (req,res)=>{
-  const body = req.body
-  console.log(body);
-  const savei = new Example({
-    tittle: body.tittle,
-    body: body.body,
-    author: body.author,
-    img:{
-      data: fs.readFileSync("uploads/" + req.file.filename),
-      contentType: "image/png"
-    }
-  })
-  savei
-  .save()
-  .then((res)=>{
-    console.log("image is saved")
-  })
-
-  .catch((err)=>{
-    console.log(err, "error has occur")
-  })
-  res.send('image is saved')
-  // res.send('image is saved', res.send(req.body))
- })
-
- app.get('/up',async (req,res)=>{
-  const allData = await Example.find()
-  res.json(allData)
- })
+  
 
 app.post('/delete', async (req,res) =>{
     const {id} = req.body
