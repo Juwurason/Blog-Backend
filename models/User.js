@@ -20,7 +20,7 @@ const usersSchema = new Schema({
     password:{
         type: Schema.Types.String,
         required: [true, "pls enter password"],
-        minlength: [6, "pass lenght is 6"]
+        minlength: [6, "pass length must be 6"]
     },
 },
 {
