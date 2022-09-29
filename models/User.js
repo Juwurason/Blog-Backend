@@ -3,14 +3,14 @@ const {isEmail} = require("validator")
 const bcrypt = require("bcrypt")
 
 const usersSchema = new Schema({
-    // username:{
-    //     type: Schema.Types.String,
-    //     required: true
-    // },
-    // fullname:{
-    //     type: Schema.Types.String,
-    //     required: true
-    // },
+    username:{
+        type: Schema.Types.String,
+        required: true
+    },
+    fullname:{
+        type: Schema.Types.String,
+        required: true
+    },
     email:{
         type: Schema.Types.String,
         unique: true,

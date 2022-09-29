@@ -97,9 +97,9 @@ const handleErrors = (err) =>{
 
 app.post("/signup", async (req,res)=>{
   try {
-    const {email, password} = req.body
-    const user = await Users.create({email, password})
-    const jwtData = {_id:user.id, email: user.email}
+    const {username, email, password, fullname} = req.body
+    const user = await Users.create({username, email, password, fullname})
+    const jwtData = {_id:user.id, email: user.username}
     const token = jwt.sign(jwtData, process.env.JWTSERCET, {expiresIn: "2h"})
     res.send(token)
         // res.status(201).json(user._id)
