@@ -35,8 +35,6 @@ app.get("/signup", auth, async (req, res) =>{
   res.send(profile)
 })
 
-
-
 app.get("/", async(req, res)=>{
     // res.status(200).json({ message: "welcome now"})
     // console.log(req.body);
@@ -93,8 +91,6 @@ const handleErrors = (err) =>{
 }
 
 
-
-
 app.post("/signup", async (req,res)=>{
   try {
     const {username, email, password, fullname} = req.body
@@ -107,7 +103,6 @@ app.post("/signup", async (req,res)=>{
     //  console.log(error);
    const errors = handleErrors(err)
      res.status(200).json({ errors })
-     
   }
 })
 // app.use("/", loginRoute)
@@ -188,6 +183,17 @@ app.post('/delete', async (req,res) =>{
     res.status(404).send({error: "id not found"})
   }
   
+})
+
+app.get('/:id', async (req,res,next) =>{
+    console.log(req.params.id);
+  try {
+  const result =  await Example.findById(req.params.id)
+    res.status(200).json(result)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message:"not found"})
+  }
 })
 
 
