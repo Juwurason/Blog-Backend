@@ -130,7 +130,7 @@ app.post("/login", async (req, res) => {
     const user = await Users.login(email, password);
     // res.status(200).json({ user: user._id, status: true });
     
-    const jwtData = {_id:user.id, email: user.email}
+    const jwtData = {id:user.id, email: user.email, name: user.name }
     const token = jwt.sign(jwtData, process.env.JWTSERCET, {expiresIn: "2h"})
     res.send(token)
   } catch (err) {
