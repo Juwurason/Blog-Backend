@@ -110,7 +110,7 @@ app.post("/signup", async (req,res)=>{
   try {
     const {username, email, password, fullname} = req.body
     const user = await Users.create({username, email, password, fullname})
-    const jwtData = {id:user._id, username: user.username, fullname: user.fullname}
+    const jwtData = {id:user._id, username: user.username}
     const token = jwt.sign(jwtData, process.env.JWTSERCET, {expiresIn: "2h"})
     res.send(token)
         // res.status(201).json(user._id)
