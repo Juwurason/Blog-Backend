@@ -153,14 +153,14 @@ app.post('/delete', async (req,res) =>{
 
 app.get('/:id', async (req,res,next) =>{
     console.log(req.params.id);
-  try {
+  try { 
   const result =  await Example.findById(req.params.id)
     res.status(200).json(result)
   } catch (error) {
     console.log(error);
     res.status(500).json({message:"not found"})
   }
-})
+}) 
 
 
   // app.post("/image", upload.single("image"), (req, res) => {
